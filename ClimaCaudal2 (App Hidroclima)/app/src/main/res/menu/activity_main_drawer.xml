@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_perfil"
+            android:icon="@drawable/ic_perfil"
+            android:title="Perfil" />
+        <item
+            android:id="@+id/nav_estaciones"
+            android:icon="@drawable/ic_estaciones"
+            android:title="Estaciones" />
+        <item
+            android:id="@+id/nav_radar"
+            android:icon="@drawable/ic_radar"
+            android:title="Radar" />
+        <!--item
+            android:id="@+id/nav_nivelq"
+            android:icon="@drawable/ic_ruler"
+            android:title="Nivel Q" /-->
+        <item
+        android:id="@+id/nav_pronostico"
+        android:icon="@drawable/ic_weather_partlycloudy"
+        android:title="Pronóstico" />
+        <!--item
+            android:id="@+id/nav_pch"
+            android:icon="@drawable/ic_pchs"
+            android:title="PCH" /-->
+        <item
+            android:id="@+id/nav_consultas"
+            android:icon="@drawable/ic_comment_multiple_outline"
+            android:title="Consultas" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_exit_to_app"
+            android:title="Log out" />
+
+    </group>
+
+
+</menu>

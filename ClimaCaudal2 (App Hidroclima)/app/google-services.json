@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "153826559265",
+    "firebase_url": "https://climacaudal2.firebaseio.com",
+    "project_id": "climacaudal2",
+    "storage_bucket": "climacaudal2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:153826559265:android:f3fb61fbfc49a41b",
+        "android_client_info": {
+          "package_name": "net.rccp.climacaudal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "153826559265-g7dtjkroh05msjihi7urmb8q02q2vi81.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.rccp.climacaudal",
+            "certificate_hash": "08be07fe3c458c27f86aed5d6bf5c4a32dd9218e"
+          }
+        },
+        {
+          "client_id": "153826559265-gl8ohe4ovb5oj3669sfhoc0bpj9172ho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYsZO49KsNNdPzZWPUZhkeIOm4US-Yfn4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "153826559265-gl8ohe4ovb5oj3669sfhoc0bpj9172ho.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

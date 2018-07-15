@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>:: Clima Caudal</title>
+
+    <!-- Bootstrap -->
+    <link href="file:///android_asset/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="file:///android_asset/js/jquery-3.2.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="file:///android_asset/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0!
+
+            var yyyy = today.getFullYear();
+            if(dd<10){
+                dd='0'+dd;
+            }
+            if(mm<10){
+                mm='0'+mm;
+            }
+            var today = yyyy + '-' + mm + '-' + dd;
+            $("#fecha").val(today);
+
+			$.ajax({
+				url: "http://hclima.org/public/getMensajes",
+				cache: false,
+				crossDomain: true,
+				data: {"id":Android.getUserId()}
+			}).done(function(data){
+			    var i = 0;
+			    var output = "<table class=\"table table-striped table-bordered\">";
+			    output += "<thead>";
+			    output += "<tr>";
+			    output += "<th>Mensajes recibidos</th>";
+			    output += "</tr>";
+			    output += "</thead>";
+			    output += "<tbody>";
+			    for(i = 0; i < data.length; i++)
+			    {
+                    output += "<tr>";
+                    output += "<td><strong>" + data[i].fechahora.substring(0,16) + "</strong><br>";
+                    output += "<span style=\"color:#32ABD0\" class=\"glyphicon glyphicon-comment\" aria-hidden=\"true\"></span> &nbsp;" + data[i].mensaje + "</td>";
+                    output += "</tr>";
+			    }
+			    output += "</tbody>";
+			    output += "</table>";
+			    $("#table_mediciones").html(output);
+			});
+        });
+
+    </script>
+</head>
+<body>
+<div class="container">
+<form id="form1">
+    <div class="row">
+        <div class="col-md-12">
+            <div id="table_mediciones"></div>
+        </div>
+    </div>
+</form>
+</div>
+</body>
+</html>

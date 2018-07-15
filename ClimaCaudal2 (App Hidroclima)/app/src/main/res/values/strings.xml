@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Hidro Clima</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Acerca de</string>
+    <string name="title_activity_login">Iniciar Sesión</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Clave</string>
+    <string name="action_sign_in">Iniciar sesión</string>
+    <string name="action_sign_in_short">Iniciar sesión</string>
+    <string name="error_invalid_email">El email no es válido</string>
+    <string name="error_invalid_password">Clave muy corta</string>
+    <string name="error_incorrect_password">La clave es incorrecta</string>
+    <string name="error_field_required">Campo requerido</string>
+    <string name="permission_rationale">"Permisos para consultar los contactos son requeridos para proveer autocompletar."
+    </string>
+    <string name="btnregister">Registrarse</string>
+    <string name="title_activity_maps">Map</string>
+</resources>

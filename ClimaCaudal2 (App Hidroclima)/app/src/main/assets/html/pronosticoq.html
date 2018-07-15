@@ -1,0 +1,193 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title>:: Clima Caudal</title>
+      <!-- Bootstrap -->
+      <link href="file:///android_asset/css/bootstrap.min.css" rel="stylesheet">
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+      <script src="file:///android_asset/js/jquery-3.2.1.min.js"></script>
+      <!-- Include all compiled plugins (below), or include individual files as needed -->
+      <script src="file:///android_asset/js/bootstrap.min.js"></script>
+  	<link rel="stylesheet" href="file:///android_asset/css/toolkit-defaults.css">
+	<link rel="stylesheet" href="file:///android_asset/css/toolkit-demo.css">
+	<link rel="stylesheet" href="file:///android_asset/css/app.css">
+	<script src="file:///android_asset/js/jsplumb.js"></script>
+    <script>
+        var idpch = Android.getIdPch();
+     </script>
+	<script src="file:///android_asset/js/app.js"></script>
+    <script>
+        var pronostico = null;
+        function setHrs(i)
+        {
+            $('#qentrada').html(pronostico[0][2][i]);
+    		$('#qcaptacion').html(pronostico[0][4][i]);
+    		$('#qecologico').html(pronostico[0][10][i]);
+    		$('#qturbina').html(pronostico[0][7][i]);
+    		$('#qexcedente').html(pronostico[0][3][i]);
+    		$('#qincremental').html(pronostico[0][5][i]);
+    		$('#qsalida').html(pronostico[0][8][i]);
+    		$('#qtramo').html(pronostico[0][6][i]);
+    		$('#potencia').html("Potencia: " + pronostico[0][9][i]);
+    		$('#tab' + i).tab('show');
+    		return false;
+        }
+        function updateData()
+        {
+            $.ajax({
+    				url: "http://hclima.org/public/getResultadosPCH",
+    				cache: false,
+    				crossDomain: true,
+    				data: {"idpch":$('#pch').val(),"fecha":$('#fecha').val()}
+    			}).done(function(data){
+    			    pronostico = data;
+    			    $('#qentrada').html(data[0][2][0]);
+    			    $('#qcaptacion').html(data[0][4][0]);
+    			    $('#qecologico').html(data[0][10][0]);
+    			    $('#qturbina').html(data[0][7][0]);
+    			    $('#qexcedente').html(data[0][3][0]);
+    			    $('#qincremental').html(data[0][5][0]);
+    			    $('#qsalida').html(data[0][8][0]);
+    			    $('#qtramo').html(data[0][6][0]);
+    			    $('#potencia').html("<strong>Potencia aproximada:</strong> " + data[0][9][0]);
+
+    			    $('#ppm24h').html(data[0][1][0]);
+    			    $('#ppm48h').html(data[0][1][1]);
+    			    $('#ppm72h').html(data[0][1][2]);
+
+    			    $('#escorrentia24h').html(data[0][2][0]);
+    			    $('#escorrentia48h').html(data[0][2][1]);
+    			    $('#escorrentia72h').html(data[0][2][2]);
+
+    			    $('#qturbina24h').html(data[0][7][0]);
+    			    $('#qturbina48h').html(data[0][7][1]);
+    			    $('#qturbina72h').html(data[0][7][2]);
+
+    			    $('#potencia24h').html(data[0][9][0]);
+    			    $('#potencia48h').html(data[0][9][1]);
+    			    $('#potencia72h').html(data[0][9][2]);
+    			});
+        }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+        <form id="form1">
+            <div class="row">
+                <div class="col-md-12" style="margin-top:5px;">
+                    <div class="form-group">
+                        <label for="fecha">PCH</label>
+                        <select  class="form-control" id="pch" onchange="updateData();">
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="fecha">Fecha</label>
+                        <input type="date" class="form-control" id="fecha" onchange="updateData();">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                <ul class="nav nav-tabs">
+                    <li role="presentation" class="active" onclick="setHrs(0);"><a id="tab0">24HRS</a></li>
+                    <li role="presentation" onclick="setHrs(1);"><a id="tab1">48HRS</a></li>
+                    <li role="presentation" onclick="setHrs(2);"><a id="tab2">72HRS</a></li>
+                </ul>
+                </div>
+            </div>
+        <div class="row">
+            <div class="col-md-12">
+      <div class="canvas-wide flowchart-demo jtk-surface-nopan" style="position:relative;border-width:1px; border-style:none; width:315px; height:450px; margin:auto;" id="canvas">
+          <div class="window jtk-node" id="flowchartWindow1">
+						<strong>Q Entrada</strong><br />
+						<div id="qentrada" style="font-size:11pt;margin-top:8px;">[]</div>
+					</div>
+          <div class="window jtk-node" id="flowchartWindow2">
+						<strong>Q Captaci&oacute;n</strong><br />
+						<div id="qcaptacion" style="font-size:11pt;margin-top:8px;">[]</div>
+					</div>
+          <div class="window jtk-node" id="flowchartWindow3">
+						<strong>Q Ecol&oacute;gico</strong><br />
+						<div id="qecologico" style="font-size:11pt;margin-top:8px;">[]</div>
+					</div>
+          <div class="window jtk-node" id="flowchartWindow4">
+						<strong>Q Turbina</strong><br />
+						<div id="qturbina" style="font-size:11pt;margin-top:8px;">[]</div>
+					</div>
+          <div class="window jtk-node" id="flowchartWindow5">
+						<strong>Q Excedente</strong><br />
+						<div id="qexcedente" style="font-size:11pt;margin-top:8px;">[]</div>
+					</div>
+          <div class="window jtk-node" id="flowchartWindow6">
+						<strong>Q Incremental</strong><br />
+						<div id="qincremental" style="font-size:11pt;margin-top:8px;">[]</div>
+					</div>
+          <div class="window jtk-node" id="flowchartWindow7">
+						<strong>Q Salida</strong><br />
+						<div id="qsalida" style="font-size:11pt;margin-top:8px;">[]</div>
+					</div>
+          <div class="window jtk-node" id="flowchartWindow8">
+						<strong>Q Tramo</strong><br />
+						<div id="qtramo" style="font-size:11pt;margin-top:8px;">[]</div>
+					</div>
+      </div>
+            </div>
+        </div>
+            <div class="row">
+                <div class="col-md-12" style="text-align:center;">
+                    <div id="potencia" style="margin:auto;padding:10px;border-style:solid;border-width:1px;border-radius:5px;width:80%;"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped table-bordered" style="margin-top:15px;">
+                        <thead>
+                            <tr>
+                                <th>Resultados de pron&oacute;stico</th>
+                                <th>24H</th>
+                                <th>48H</th>
+                                <th>72H</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             <tr>
+                                 <td>Precipitaci&oacute;n media</td>
+                                 <td><span id="ppm24h"></span></td>
+                                 <td><span id="ppm48h"></span></td>
+                                 <td><span id="ppm72h"></span></td>
+                             </tr>
+                             <tr>
+                                 <td>Escorrentìa dique</td>
+                                 <td><span id="escorrentia24h"></span></td>
+                                 <td><span id="escorrentia48h"></span></td>
+                                 <td><span id="escorrentia72h"></span></td>
+                             </tr>
+                             <tr>
+                                 <td>Caudal turbinado</td>
+                                 <td><span id="qturbina24h"></span></td>
+                                 <td><span id="qturbina48h"></span></td>
+                                 <td><span id="qturbina72h"></span></td>
+                             </tr>
+                             <tr>
+                                 <td>Potencia estimada</td>
+                                 <td><span id="potencia24h"></span></td>
+                                 <td><span id="potencia48h"></span></td>
+                                 <td><span id="potencia72h"></span></td>
+                             </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+  </body>
+</html>
+																																		 
