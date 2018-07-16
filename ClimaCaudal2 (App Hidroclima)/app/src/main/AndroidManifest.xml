@@ -34,7 +34,7 @@ uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBPE7hKflhj_XbUcoXNC5jkT0Pg0ny_Pyw" />
+            android:value="AIzaSyBYsZO49KsNNdPzZWPUZhkeIOm4US-Yfn4" />
 
         <activity
             android:name=".LoginActivity"
@@ -53,9 +53,6 @@ uses-permission android:name="android.permission.GET_ACCOUNTS" />
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
     </application>
 
 </manifest>

@@ -104,10 +104,10 @@ public class Register extends AppCompatActivity {
         Log.i("Eliseo","Registro");
         mNombre = ((AppCompatEditText) findViewById(R.id.edit_nombre)).getText().toString();
         mApellido = ((AppCompatEditText) findViewById(R.id.edit_apellido)).getText().toString();
-        mEmail = ((AppCompatEditText) findViewById(R.id.edit_email)).getText().toString();
+        mEmail = "usuario@hclima.org"; //((AppCompatEditText) findViewById(R.id.edit_email)).getText().toString();
         mTelefono = ((AppCompatEditText) findViewById(R.id.edit_telefono)).getText().toString();
-        mClave = ((AppCompatEditText) findViewById(R.id.edit_clave)).getText().toString();
-        mClave2 = ((AppCompatEditText) findViewById(R.id.confirmar_clave)).getText().toString();
+        mClave = "hclima_"; // ((AppCompatEditText) findViewById(R.id.edit_clave)).getText().toString();
+        mClave2 = "hclima_"; // ((AppCompatEditText) findViewById(R.id.confirmar_clave)).getText().toString();
         mToken = String.valueOf(FirebaseInstanceId.getInstance().getToken());
 
         // TODO: Validar Ingreso de datos
@@ -131,7 +131,7 @@ public class Register extends AppCompatActivity {
             return;
         }
 
-        if(mEmail.equals("")){
+        /*if(mEmail.equals("")){
             text = "Debe ingresar un correo electrónico válido.";
             toast = Toast.makeText(context, text, duration);
             toast.show();
@@ -151,7 +151,7 @@ public class Register extends AppCompatActivity {
             toast = Toast.makeText(context, text, duration);
             toast.show();
             return;
-        }
+        }*/
 
         new AsyncTask<Void, Void, String>() {
             @Override
@@ -177,7 +177,7 @@ public class Register extends AppCompatActivity {
                             String res = null;
                             String token = params[0];
                             try {
-                                res = runRegister("http://hclima.org/public/registrarUsuario",mNombre,mApellido,mTelefono,mEmail,mClave,mToken);
+                                res = runRegister("http://hclima.org/public/registrarUsuario2",mNombre,mApellido,mTelefono,mEmail,mClave,mToken);
                                 Log.i("Eliseo",res);
                                 return res;
 

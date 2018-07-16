@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,15 +36,15 @@ public class PerfilFragment extends Fragment {
                 ((AppCompatEditText) rootView.findViewById(R.id.edit_nombre_perfil)).setText(jsonObject.getString("name"));
                 ((AppCompatEditText) rootView.findViewById(R.id.edit_apellido_perfil)).setText(jsonObject.getString("lastname"));
                 ((AppCompatEditText) rootView.findViewById(R.id.edit_telefono_perfil)).setText(jsonObject.getString("telefono"));
-                ((AppCompatEditText) rootView.findViewById(R.id.edit_email_perfil)).setText(jsonObject.getString("email"));
+                //((AppCompatEditText) rootView.findViewById(R.id.edit_email_perfil)).setText(jsonObject.getString("email"));
                 ((AppCompatEditText) rootView.findViewById(R.id.edit_nombre_perfil)).setEnabled(false);
                 ((AppCompatEditText) rootView.findViewById(R.id.edit_apellido_perfil)).setEnabled(false);
                 ((AppCompatEditText) rootView.findViewById(R.id.edit_telefono_perfil)).setEnabled(false);
-                ((AppCompatEditText) rootView.findViewById(R.id.edit_email_perfil)).setEnabled(false);
+                //((AppCompatEditText) rootView.findViewById(R.id.edit_email_perfil)).setEnabled(false);
             }
             catch (Exception ex)
             {
-
+                Log.i("Eliseo",ex.getMessage());
             }
         }
         return rootView;

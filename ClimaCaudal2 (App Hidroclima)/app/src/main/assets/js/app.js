@@ -164,8 +164,8 @@ jsPlumb.ready(function () {
     				crossDomain: true,
     				data: {"idpch":Android.getIdPch(),"fecha":today}
     			}).done(function(data){
-    			    //console.log(data);
-    			    if(data.length>1){
+    			    console.log(data[0][1]);
+    			    if(data[0][1]!=null){
                         pronostico = data;
                         $('#qentrada').html(data[0][2][0]);
                         $('#qcaptacion').html(data[0][4][0]);
@@ -206,6 +206,7 @@ jsPlumb.ready(function () {
                            mm='0'+mm;
                         }
                         today = yyyy + '-' + mm + '-' + dd;
+                        console.log(today);
                         $("#fecha").val(today);
                         $.ajax({
                             url: "http://hclima.org/public/getResultadosPCH",

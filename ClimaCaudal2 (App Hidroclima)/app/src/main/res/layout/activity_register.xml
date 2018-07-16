@@ -65,7 +65,7 @@
                 android:id="@+id/edit_telefono"
                 />
 
-            <android.support.v7.widget.AppCompatTextView
+            <!--android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Email"/>
@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:id="@+id/confirmar_clave"
-                />
+                /-->
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/regButton"

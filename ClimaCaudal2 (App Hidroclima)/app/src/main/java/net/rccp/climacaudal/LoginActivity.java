@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -78,7 +79,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     // UI references.
     private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
+    private TextInputEditText mTelefono;
     private View mProgressView;
     private View mLoginFormView;
 
@@ -87,9 +88,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mTelefono = (TextInputEditText) findViewById(R.id.telefono);
         //populateAutoComplete();
-        mPasswordView = (EditText) findViewById(R.id.password);
+        /*mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -99,7 +100,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
                 return false;
             }
-        });
+        });*/
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -186,25 +187,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         // Reset errors.
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
+        mTelefono.setError(null);
+        //mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        //String email = mEmailView.getText().toString();
+        String telefono = mTelefono.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
+        if (TextUtils.isEmpty(telefono)) {
+            mTelefono.setError("Debe ingresar el número de teléfono");
+            focusView = mTelefono;
             cancel = true;
         }
 
         // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
+        /*if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
@@ -212,7 +213,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
-        }
+        }*/
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -222,7 +223,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(telefono);
             mAuthTask.execute((Void) null);
         }
     }
@@ -329,11 +330,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     static OkHttpClient client = new OkHttpClient();
 
-    static String run(String url, String email, String clave) throws IOException {
+    static String run(String url, String telefono) throws IOException {
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("email", email)
-                .addFormDataPart("clave",clave)
+                .addFormDataPart("telefono",telefono)
                 .build();
         Request request = new Request.Builder()
                 .url(url)
@@ -358,20 +358,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
-        private final String mPassword;
+        private final String mTelefono;
+        //private final String mPassword;
 
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
+        UserLoginTask(String telefono) {
+            mTelefono = telefono;
+            //mPassword = password;
         }
 
         public String doValidate() {
             StringBuilder builder = new StringBuilder();
             try {
-                return run("http://hclima.org/public/validarUsuario",mEmail,mPassword);
+                return run("http://hclima.org/public/validarUsuarioByPhone",mTelefono);
             } catch (Exception ex) {
-
+                Log.i("Eliseo",ex.getMessage());
             }
             return null;
         }
@@ -428,8 +428,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 startActivity(intent);
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                //mTelefono.setError("Teléfono incorrecto");
+                //mTelefono.requestFocus();
             }
         }
 
