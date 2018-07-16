@@ -165,6 +165,12 @@ class ApiController extends Controller
     $user = DB::select("select * from users where email = ?",[$request->email])[0];
     return response()->json($user);
   }
+
+  public function validarUsuarioByPhone(Request $request)
+  {
+    $user = DB::select("select * from users where telefono = ?",[$request->telefono])[0];
+    return response()->json($user);
+  }
   
   public function getToken()
   {
@@ -238,6 +244,78 @@ class ApiController extends Controller
          // echo("The email was not sent. Error message: ");
          // echo($e->getMessage()."\n");
      }
+ 
+     
+     return "OK";
+  }
+
+  public function registrarUsuario2(Request $request)
+  {
+     // validar :-)
+     $token = csrf_token();
+     $existente = DB::select("select * from users where email = ?", [$request->email]);
+     
+     if(count($existente)>0) return "FAIL: Existente.";
+     
+     $usuario = new User();
+     $usuario->name = $request->nombre;
+     $usuario->lastname = $request->apellido;
+     $usuario->telefono = $request->telefono;
+     $usuario->email = $request->email;
+     $usuario->remember_token = $token;
+     $usuario->rol = 2;
+     $usuario->validado = 1;
+     $usuario->gcmtoken = $request->token;
+     $usuario->password = bcrypt($request->clave);
+     $usuario->save();
+     
+     /*define('SENDER', 'centroclimaorg@gmail.com');
+     define('RECIPIENT', $request->email);
+     define('REGION','us-west-2'); 
+     define('SUBJECT','Confirmacion de registro en Hidro Clima');
+     define('BODY','
+                  
+                  <!DOCTYPE html>
+                  <html>
+                  <body>
+                  
+                  <div style="text-align:center;">
+                  <img src="' . URL::to('/') . '/images/icon.png"></div>
+                  
+                  <br />
+                  <h3>Confirmaci&oacute;n de usuario</h3>
+                  
+                  Para completar el proceso de registro debe verificar su correo haciendo clic en: <a href="' . URL::to('/') . '/verificarCorreo?token=' . $token . '">Verificar</a>.
+                  </div>
+                  </body>
+                  </html>
+                  ');
+     
+     $client = SesClient::factory(array(
+          'version'=> 'latest',     
+          'region' => REGION,
+          'credentials' => [
+              'key'    => 'AKIAJRXVEU3HNEWQRIHQ',
+              'secret' => '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'
+          ]
+     ));
+
+     $request = array();
+     $request['Source'] = SENDER;
+     $request['Destination']['ToAddresses'] = array(RECIPIENT);
+     $request['Message']['Subject']['Data'] = SUBJECT;
+     $request['Message']['Body']['Text']['Data'] = "";
+     $request['Message']['Body']['Html']['Data'] = BODY;
+     
+     try {
+         $result = $client->sendEmail($request);
+         $messageId = $result->get('MessageId');
+         // echo("Email sent! Message ID: $messageId"."\n");
+    
+     } catch (Exception $e) {
+         // echo("The email was not sent. Error message: ");
+         // echo($e->getMessage()."\n");
+     }*/
  
      
      return "OK";

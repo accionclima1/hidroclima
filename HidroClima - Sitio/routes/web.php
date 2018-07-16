@@ -35,8 +35,10 @@ Route::get('/getParametrosTelemetricas','ApiController@getParametrosTelemetricas
 Route::post('/getPCHs','ApiController@getPCHs');
 Route::get('/getPCHs','ApiController@getPCHs');
 Route::post('/validarUsuario','ApiController@validarUsuario');
+Route::post('/validarUsuarioByPhone','ApiController@validarUsuarioByPhone');
 Route::get('/getToken','ApiController@getToken');
 Route::post('/registrarUsuario','ApiController@registrarUsuario');
+Route::post('/registrarUsuario2','ApiController@registrarUsuario2');
 Route::post('/updateToken','ApiController@updateToken');
 Route::post('/sendMessageToAdmin','ApiController@sendMessageToAdmin');
 Route::get('/getMensajes','ApiController@getMensajes');
