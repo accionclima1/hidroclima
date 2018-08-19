@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap -->
+    <link href="file:///android_asset/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="file:///android_asset/js/jquery-3.2.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="file:///android_asset/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        var registroHabilitado = Android.getRegistroHabilitado();
+        $(document).ready(function(){
+            //console.log("Get Mediciones");
+            getMediciones();
+            if(registroHabilitado==1)
+            {
+                $("#reg").show();
+            }
+            else
+            {
+                $("#reg").hide();
+            }
+        });
+
+        function getMediciones()
+        {
+            $.ajax({url:"http://hclima.org/public/getMedicionesPuntoNivelCaudal",cache:false,crossDomain:true,data:{"sitioid":$("#sitioid").val()}}).done(function(data){
+                var i = 0;
+                var html_out = "";
+                html_out += "<table class=\"table\">";
+                html_out += "<thead>";
+                html_out += "<th>Fecha - Hora</th>";
+                html_out += "<th>Nivel</th>";
+                html_out += "<th>Caudal</th>";
+                html_out += "</thead>";
+                html_out += "<tbody>";
+
+                for(i=0;i<data.length;i++)
+                {
+                    html_out += "<tr>";
+                    html_out += "<td>" + data[i].fechahora + "</td>";
+                    html_out += "<td>" + data[i].nivel + "</td>";
+                    html_out += "<td>" + data[i].caudal + "</td>";
+                    html_out += "</tr>";
+                }
+
+                html_out += "</tbody>";
+                html_out += "<tfoot>";
+                html_out += "<th>Fecha - Hora</th>";
+                html_out += "<th>Nivel</th>";
+                html_out += "<th>Caudal</th>";
+                html_out += "</tfoot>";
+                html_out += "</table>";
+
+                $('#data').html(html_out);
+            });
+        }
+
+        function registrar(){
+            if($("#nivel").val()!="")
+            {
+                console.log("Registrar");
+                $.ajax({
+                    url:"http://hclima.org/public/registrarNivelCaudal",
+                    cache:false,
+                    crossDomain:true,
+                    data:{"sitioid":$("#sitioid").val(),"nivel":$("#nivel").val()}
+                }).done(function(data){
+                    //console.log("Data:" + data);
+                    getMediciones();
+                    $('.nav-tabs a[href="#data"]').tab('show');
+                });
+            }
+        }
+
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h3> C&aacute;lculo de Caudal a partir de mediciones de nivel </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="sitioid">Sitio</label>
+                    <select class="form-control" id="sitioid" name="sitioid">
+                        <option value="1">Sitios descarga Nahuizalco I</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <img src="file:///android_asset/imgs/sitio1.png" class="img-responsive" alt="foto">
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#data" aria-controls="tabla" role="tab" data-toggle="tab">Mediciones anteriores</a></li>
+                    <li id="reg" role="presentation"><a href="#registro" aria-controls="registro" role="tab" data-toggle="tab">Registrar</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="data">
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="registro">
+                        <div class="form-group">
+                            <label for="nivel">Nivel</label>
+                            <input type="number" id="nivel" name="nivel" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input class="btn btn-primary" type="button" value="Registrar" onclick="registrar();">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

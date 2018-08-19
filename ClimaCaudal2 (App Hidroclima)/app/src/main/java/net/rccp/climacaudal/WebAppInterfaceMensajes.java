@@ -12,7 +12,7 @@ public class WebAppInterfaceMensajes {
     Context mContext;
     int userid;
 
-    WebAppInterfaceMensajes(Context c, int _userid) {
+    public WebAppInterfaceMensajes(Context c, int _userid) {
         mContext = c;
         userid = _userid;
     }

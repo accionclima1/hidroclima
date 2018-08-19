@@ -1,4 +1,4 @@
-package net.rccp.climacaudal;
+package net.rccp.climacaudal.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import net.rccp.climacaudal.R;
+import net.rccp.climacaudal.WebAppInterface;
 
 /**
  * Created by DavidEliseo on 4/22/2017.

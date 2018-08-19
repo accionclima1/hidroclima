@@ -1,4 +1,4 @@
-package net.rccp.climacaudal;
+package net.rccp.climacaudal.fragments;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +15,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
+
+import net.rccp.climacaudal.R;
+import net.rccp.climacaudal.WebAppInterfaceMensajes;
 
 import org.json.JSONObject;
 

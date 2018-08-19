@@ -4,13 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,12 +17,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import net.rccp.climacaudal.fragments.AcercaDeFragment;
+import net.rccp.climacaudal.fragments.CiclonesFragment;
+import net.rccp.climacaudal.fragments.NivelQFragment;
+import net.rccp.climacaudal.fragments.PresionFragment;
+import net.rccp.climacaudal.fragments.TemperaturaFragment;
+import net.rccp.climacaudal.fragments.VientoFragment;
+import net.rccp.climacaudal.fragments.ConsultaFragment;
+import net.rccp.climacaudal.fragments.EstacionesFragment;
+import net.rccp.climacaudal.fragments.PerfilFragment;
+import net.rccp.climacaudal.fragments.PronosticoFragment;
+import net.rccp.climacaudal.fragments.RadarFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -139,6 +141,16 @@ public class MainActivity extends AppCompatActivity
             fragment.setArguments(args);
         } else if (id == R.id.nav_consultas) {
             fragment = new ConsultaFragment();
+        } else if(id==R.id.nav_nivelq) {
+            fragment = new NivelQFragment();
+        }else if(id==R.id.nav_viento) {
+            fragment = new VientoFragment();
+        } else if(id==R.id.nav_presion) {
+            fragment = new PresionFragment();
+        } else if(id==R.id.nav_temperatura) {
+            fragment = new TemperaturaFragment();
+        } else if(id==R.id.nav_ciclones) {
+            fragment = new CiclonesFragment();
         }  else if (id == R.id.nav_logout) {
             Log.i("Eliseo","Saliendo");
             SharedPreferences sharedPref = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);

@@ -12,7 +12,7 @@ public class WebAppInterface {
     Context mContext;
     int idpch;
 
-    WebAppInterface(Context c, int _idpch) {
+    public WebAppInterface(Context c, int _idpch) {
         mContext = c;
         idpch = _idpch;
     }

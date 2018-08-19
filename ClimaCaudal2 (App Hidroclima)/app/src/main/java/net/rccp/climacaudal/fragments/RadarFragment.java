@@ -1,4 +1,4 @@
-package net.rccp.climacaudal;
+package net.rccp.climacaudal.fragments;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,6 +25,8 @@ import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 //import com.google.maps.android.kml.KmlLayer;
+
+import net.rccp.climacaudal.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

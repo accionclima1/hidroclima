@@ -2,11 +2,21 @@ var map = null;
 var pronostico = null;
 var x = null;
 function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
+    var center = [13.80, -89.743537];
+    var zoom = 12;
+    map = L.map("map").setView(center, zoom);
+    
+    L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+	       maxZoom: 18,
+	       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    /*map = new google.maps.Map(document.getElementById('map'), {
        center: {lat: 13.80, lng: -89.743537},
        zoom: 12,
        gestureHandling: 'none'
-    });
+    });*/
+
     getMapPCHs();
 }
      
@@ -17,19 +27,32 @@ function initMap() {
 				    cache: false,
 				    crossDomain: true
 			   }).done(function(data){
-			       var i = 0;
-             console.log(data);
-			       for(i = 0; i < data.length; i++)
-			       {
+			        var i = 0;
+                    console.log(data);
+			        for(i = 0; i < data.length; i++)
+			        {
 			           createPCHMarker(data[i]);
-			       }
+			        }
 			   });
      }
      
      function createPCHMarker(pchi)
      {
-        var pch = {lat: pchi.latitud * 1, lng: pchi.longitud * 1};
-        var markerPCH = new MarkerWithLabel({
+        var pch = [pchi.latitud * 1, pchi.longitud * 1];
+        
+        var myIcon = L.icon({
+            iconUrl: URL + '/images/marker.png'
+        });
+        
+        var marker = L.marker(pch,{title:pchi.nombre_pch,icon:myIcon}).addTo(map);
+        
+        if(pchi.nombre_pch != 'SENSUNAPAN DE NAHUIZALCO I') {
+            marker.bindTooltip(pchi.nombre_pch,{permanent:true}).openTooltip();
+        } else {
+            marker.bindTooltip(pchi.nombre_pch,{permanent:true,direction:'right',offset:L.point(20,20)}).openTooltip(); 
+        }
+
+        /*var markerPCH = new MarkerWithLabel({
                  position: pch,
                  draggable: false,
                  raiseOnDrag: false,
@@ -40,11 +63,12 @@ function initMap() {
                  labelClass: "labels",
                  labelStyle: {opacity: 0.75}
         });
+        
         var o = pchi.idpch + "";
         google.maps.event.addListener(markerPCH,"click", function (e) { 
           $("#pch").val(o);
-					getData();  
-        });
+		  getData();  
+        });*/
      }
      
      function round(value, exp) {

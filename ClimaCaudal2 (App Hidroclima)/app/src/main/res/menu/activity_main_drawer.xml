@@ -14,18 +14,30 @@
             android:id="@+id/nav_radar"
             android:icon="@drawable/ic_radar"
             android:title="Radar" />
-        <!--item
+        <item
             android:id="@+id/nav_nivelq"
             android:icon="@drawable/ic_ruler"
-            android:title="Nivel Q" /-->
+            android:title="Nivel - Caudal" />
         <item
         android:id="@+id/nav_pronostico"
         android:icon="@drawable/ic_weather_partlycloudy"
         android:title="Pronóstico" />
-        <!--item
-            android:id="@+id/nav_pch"
-            android:icon="@drawable/ic_pchs"
-            android:title="PCH" /-->
+        <item
+            android:id="@+id/nav_viento"
+            android:icon="@drawable/viento"
+            android:title="Viento" />
+        <item
+            android:id="@+id/nav_temperatura"
+            android:icon="@drawable/termometro"
+            android:title="Temperatura" />
+        <item
+            android:id="@+id/nav_presion"
+            android:icon="@drawable/presion"
+            android:title="Presión Atmosférica" />
+        <item
+            android:id="@+id/nav_ciclones"
+            android:icon="@drawable/satelite"
+            android:title="Ciclones tropicales" />
         <item
             android:id="@+id/nav_consultas"
             android:icon="@drawable/ic_comment_multiple_outline"

@@ -11,6 +11,8 @@
   <!-- Theme -->
   <link rel="stylesheet" type="text/css" href="{{ URL::to('/') }}/css/theme/blue-sky.css">
   <script type="text/javascript" src="{{ URL::to('/') }}/js/jquery.min.js"></script>
+  <script type="text/javascript" src="{{ URL::to('/') }}/js/leaflet.js"></script>
+  <link href="{{ URL::to('/') }}/js/leaflet.css" rel="stylesheet" />
   <link href="<?php echo asset('components/datatables/media/css/dataTables.bootstrap.min.css') ?>" rel="stylesheet" />
   <link href="<?php echo asset('components/datatables-responsive/css/responsive.bootstrap.min.css') ?>" rel="stylesheet" />
   <script src="<?php echo asset('components/datatables/media/js/jquery.dataTables.min.js');?>"></script>
@@ -74,6 +76,7 @@
                     <li class="section"><i class="fa fa-database" aria-hidden="true"></i> Base de datos</li>
                     <li><a href="{{ URL::to('/') }}/estaciones">Estaciones</a></li>
                     <li><a href="{{ URL::to('/') }}/pchs">PCHs</a></li>
+                    <li><a href="{{ URL::to('/') }}/puntosnivel">Puntos de medici&oacute;n de nivel</a></li>
                     <li class="line"></li>
                   </ul>
                 </div>

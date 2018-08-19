@@ -19,8 +19,8 @@
 <link rel="stylesheet" href="{{ URL::to('/') }}/css/toolkit-demo.css">
 <link rel="stylesheet" href="{{ URL::to('/') }}/css/app2.css">
 <!--link rel="stylesheet" href="{{ URL::to('/') }}/css/jquery-ui.css"-->	
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYpz3xcHFOERJu2z9k1lYoSXUOl8ZUxZc"></script>
-<script src="{{ URL::to('/') }}/js/markerwithlabel.js" type="text/javascript"></script>
+<!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYpz3xcHFOERJu2z9k1lYoSXUOl8ZUxZc"></script-->
+<!--script src="{{ URL::to('/') }}/js/markerwithlabel.js" type="text/javascript"></script-->
 <script src="{{ URL::to('/') }}/js/jquery-ui.min.js" type="text/javascript"></script>
 <script src="{{ URL::to('/') }}/js/jsplumb.js"></script>
 <script>

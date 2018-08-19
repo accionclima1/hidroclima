@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-include("/home/hidroclima/aguaclima/aws/aws-autoloader.php");
+#include("/home/hidroclima/aguaclima/aws/aws-autoloader.php");
 
 use DB;
 use URL;
@@ -354,6 +354,26 @@ class ApiController extends Controller
   {
      $mensajes = DB::select("select * from mensajes where iddestinatario = ? order by fechahora limit 25",[$request->id]);
      return response()->json($mensajes);
+  }
+
+  public function getSitiosNivelCaudal(){
+    $sitios = DB::select("select * from puntos_nivel");
+    return response()->json($sitios);
+  }
+
+  public function getMedicionesPuntoNivelCaudal(Request $request)
+  {
+    $mediciones = DB::select("select * from registro_nivelcaudal where puntoid = ? order by fechahora desc limit 20",[$request->sitioid]);
+    return response()->json($mediciones);
+  }
+
+  public function registrarNivelCaudal(Request $request)
+  {
+      $sitios = DB::select("select * from puntos_nivel where puntoid = ?",[$request->sitioid]);
+      $parametros = json_decode($sitios[0]->coeficientes);
+      $caudal = $parametros[0] * pow($request->nivel,2) + $parametros[1] * $request->nivel + $parametros[2];
+      DB::insert("insert into registro_nivelcaudal (fechahora,puntoid,caudal,nivel) values (?,?,?,?)",
+      [date('Y-m-d H:i'),$request->sitioid,$caudal,$request->nivel]);
   }
 
 }

@@ -12,6 +12,7 @@ class VerifyCsrfToken extends BaseVerifier
      * @var array
      */
     protected $except = [
-        'validarUsuario','registrarUsuario','updateToken','sendMessageToAdmin','validarUsuarioByPhone','registrarUsuario2'
+        'validarUsuario','registrarUsuario','updateToken','sendMessageToAdmin','validarUsuarioByPhone','registrarUsuario2',
+        'getMedicionesPuntoNivelCaudal','registrarNivelCaudal'
     ];
 }

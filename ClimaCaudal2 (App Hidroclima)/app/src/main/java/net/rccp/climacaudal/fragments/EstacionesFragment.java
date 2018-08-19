@@ -1,4 +1,4 @@
-package net.rccp.climacaudal;
+package net.rccp.climacaudal.fragments;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +19,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import net.rccp.climacaudal.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
