@@ -12,6 +12,7 @@
     $("#form1 :input").prop("disabled", true);
     $("#btnNuevo").prop("disabled",false);
     $('#data_table').DataTable({
+            "order": [[ 0, "desc" ]],
             language: {
                 processing:     "Procesando...",
                 search:         "Buscar:",
@@ -62,13 +63,13 @@
     $("#accion").val('nuevo');
   }
 
-  function eliminar(idestacion)
+  function eliminar(id)
   {
     if(confirm("Realmente desea eliminar el registro seleccionado?"))
     {
       $("#form1")[0].reset();
       $("#form1 :input").prop("disabled", false);
-      $("#idestacion").val(idestacion);
+      $("#idmensaje").val(id);
       $("#accion").val('eliminar');
       $("#form1").submit();
     }
@@ -101,6 +102,7 @@
                   <textarea class="form-control" id="mensaje" name="mensaje" cols="45" rows="4"></textarea>
                   <input type="hidden" id="accion" name="accion" />
                   <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}" />
+                  <input type="hidden" id="idmensaje" name="idmensaje" />
                 </div>
                 <div style="text-align:center;">
               <div class="btn-group" role="group" aria-label="...">
@@ -134,7 +136,7 @@
                       <div class="btn-group" role="group" aria-label="...">
                         <button type="button" class="btn btn-default"
                           onclick="editar('{{ $item->idremitente }}');">Responder</button>
-                        <button type="button" class="btn btn-default" onclick="eliminar('');">Eliminar</button>
+                        <button type="button" class="btn btn-default" onclick="eliminar('{{ $item->id }}');">Eliminar</button>
                       </div>
                     </td>
                   </tr>

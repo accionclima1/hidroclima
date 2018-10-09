@@ -66,25 +66,17 @@ class ConsultasController extends Controller
             return 'Curl error: ' . curl_error($ch);
         }
         
-        return response()->json($result);
-        
         curl_close ( $ch );
-      }
 
-      if($request->accion=="editar")
-      {
-        $estacion = Estaciones::find($request->idestacion);
-        $estacion->tipo = $request->tipo;
-        $estacion->nombre_estacion = $request->nombreestacion;
-        $estacion->latitud = $request->latitud;
-        $estacion->longitud = $request->longitud;
-        $estacion->elevacion = $request->elevacion;
-        $estacion->save();
+        $mensajes = DB::select("select * from mensajes  where iddestinatario = 0 order by fechahora desc limit 25");
+        $destinatarios = DB::select("select * from users where rol = 2 order by id");
+        return view('consultas',['resultado'=>$result,'mensajes'=>$mensajes,'destinatarios'=>$destinatarios]);
+
       }
 
       if($request->accion=="eliminar")
       {
-          Estaciones::destroy($request->idestacion);
+          Mensajes::destroy($request->idmensaje);
       }
 
       $mensajes = DB::select("select * from mensajes  where iddestinatario = 0 order by fechahora desc limit 25");

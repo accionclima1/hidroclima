@@ -12,7 +12,7 @@
     <title>.:: Visor geogr&aacute;fico Clima 3</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="<?php echo asset('bower_components/bootstrap/dist/css/bootstrap.min.css'); ?>" rel="stylesheet" />
+    <link href="<?php echo asset('bower_components/bootstrap/dist/css/bootstrap.css'); ?>" rel="stylesheet" />
 
     <!-- MetisMenu CSS -->
     <link href="<?php echo asset('bower_components/metisMenu/dist/metisMenu.min.css'); ?>" rel="stylesheet" />
@@ -68,6 +68,7 @@
     <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/flick/jquery-ui.css">
     <script src="js/jquery-ui-slider-pips.js"></script>
+    <script src="js/xml2json.min.js"></script>
     <link rel="stylesheet" href="css/jquery-ui-slider-pips.css">
     @section('extra_header_includes')
 
@@ -93,8 +94,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{ URL::to('/') }}/">Visor Geogr&aacute;fico Clima 3<!--img src="{{ URL::to('/') }}/imgs/title1.png" alt="escudo" /--></a>
+                <a class="navbar-brand" href="{{ URL::to('/') }}/"><img class="img-responsive" src="http://blog.centroclima.org/wp-content/uploads/2018/08/cropped-logos-blog-1.png" alt="log"></a>
+                
             </div>
+            <!--div class="collapse navbar-collapse" id="navbarText"-->
+            <span class="navbar-text collapse navbar-collapse navbar-right" style="margin-right:20px;">Visor Geogr&aacute;fico Clima 3</span>  
+            <!--/div-->
             <!-- /.navbar-header -->
 
               <!--ul class="nav navbar-top-links navbar-right">
@@ -166,7 +171,7 @@
               </ul-->
 
             <!-- /.navbar-top-links -->
-            <div class="navbar-default sidebar" role="navigation">
+            <div class="navbar-sidebar sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search" style="text-align:center;">

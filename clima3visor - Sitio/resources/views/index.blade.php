@@ -59,6 +59,9 @@
         var cLayer = null;
         var layer_list = null;
         var layer = null;
+        var Esri_WorldImagery = null;
+        var CartoDB_VoyagerOnlyLabels = null;
+        var LayerGroup="";
 
         $(document).ready(function() {
           if($("#map").width()<=900) { zoom = 5; $("#mymap").height(440); }
@@ -67,56 +70,85 @@
           mymap = L.map("map").setView([15.3, -81.8], zoom);
           
           drawnItems = L.featureGroup().addTo(mymap);
-          
-          var Esri_OceanBasemap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
-                attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri',
-                maxZoom: 13
+
+          Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
           });
-          
-          Esri_OceanBasemap.addTo(mymap);
+        
+          Esri_WorldImagery.addTo(mymap);
 
-          /*var OpenMapSurfer_Roads = L.tileLayer('https://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}', {
-            maxZoom: 20,
-            attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          CartoDB_VoyagerOnlyLabels = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+            subdomains: 'abcd',
+            maxZoom: 19
           });
 
-          OpenMapSurfer_Roads.addTo(mymap);*/
+          CartoDB_VoyagerOnlyLabels.addTo(mymap);
 
-          /*var wmsOptions = {
-              crs: L.CRS.EPSG4326,
-              layers:'m1_mes1_7',
-              format:'image/png',
-              transparent:'true'
-          };
-          
-          var cLayer = L.tileLayer.wms('http://163.172.134.91/c3pronostico/wms?', wmsOptions);
-          
-          wmsLayer.addTo(mymap);*/
+          showMiembro(1);
 
-          /*L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
-	            maxZoom: 18,
-	            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          }).addTo(mymap);*/
+          var downloaderCC = L.Control.Downloader = L.Control.extend({
+            options: {
+                position: 'topright'
+            },
+            onAdd: function(map) {
+                var mc = L.DomUtil.create('div','Layer Download');
+                var html="<select id='downloaderselect'>";
+                    html+="<option value='image/geotiff'>GeoTiff</option>";
+                    html+="<option value='application/vnd.google-earth.kml+xml'>KML</option>";
+                    html+="<option value='image/png'>PNG</option>";
+                    html+="</select>";
+                    html+="<input type='button' value='Descargar' onclick='descargarLayer();'>";
+                mc.innerHTML = html;
+                return mc;
+            },
 
-          /*$(".slider")
-                    .slider({ 
-                        min: 0, 
-                        max: months.length-1, 
-                        value: 0 
-                    })
-                    .slider("pips", {
-                        rest: "label",
-                        labels: months
-                    })
-                    .on("slidechange", function(e,ui) {
-                        //$("#labels-months-output").text( "You selected " + months[ui.value] + " (" + ui.value + ")");
-                    });*/
-
-            showMiembro(1);
+            onRemove: function(map) {
+                //
+            }
+          });
+          mymap.addControl(new downloaderCC());
         });
+
+        function descargarLayer()
+        {
+            if($('#downloaderselect').val()!='image/geotiff'){
+                $.get("http://163.172.134.91/" + LayerGroup + "/wms?service=WMS&version=1.1.0&request=GetCapabilities",function(data){
+                    var x2js = new X2JS();
+                    var jsonData = x2js.xml2json(data);
+                    console.log(jsonData);
+                    var mbbox = "";
+                    var srs = "";
+                    var i = 0;
+                    var CapLayers = jsonData.WMT_MS_Capabilities.Capability.Layer.Layer;
+                    var url = "";
+                    for(i=0;i < CapLayers.length;i++)
+                    {
+                        if(CapLayers[i].Name==layer)
+                        {
+                            srs = CapLayers[i].BoundingBox._SRS;
+                            mbbox = CapLayers[i].BoundingBox._minx + "," + CapLayers[i].BoundingBox._miny + "," + CapLayers[i].BoundingBox._maxx + "," + CapLayers[i].BoundingBox._maxy;
+                            url = "http://163.172.134.91/" + LayerGroup + "/wms?service=WMS&version=1.1.0&request=GetMap&layers=" + LayerGroup + ":";
+                            url+= layer + "&styles=&bbox=" + mbbox + "&width=768&height=470&srs=" + srs + "&format=" + $('#downloaderselect').val();
+                            window.open(url);
+                        }
+                    }
+                    
+                });
+            } else {
+
+                $.get("{{ URL::to('/') }}/getGeoTiff?file="+LayerGroup + ":" + layer + "&x=" + Math.random(),function(data){
+                    window.open('http://163.172.134.91/'+data.strfile);
+                    console.log(data);
+                });
+            }
+            
+        }
 
         function getLayerGroupByYear(layergroup,year)
         {
+            LayerGroup = "clima3base";
+
             $.post("{{ URL::to('/') }}/getLayersByLayerGroup",{layergroup:layergroup,year:year, _token:'{{ csrf_token() }}'},function(data){
                 
                 layer_list = data;
@@ -133,10 +165,18 @@
                         labels: months
                     })
                     .on("slidechange", function(e,ui) {
-                        if(cLayer!=null){
+                        /*if(cLayer!=null){
                             cLayer.removeSubLayer(layer);
                             cLayer=null;
-                        }
+                        }*/
+
+                        mymap.eachLayer(function (layer) {
+                            try {
+                                if(layer!=Esri_WorldImagery && layer!=CartoDB_VoyagerOnlyLabels) mymap.removeLayer(layer);
+                            } catch(Err) {
+
+                            }
+                        });
 
                         var record = layer_list[ui.value];
                         
@@ -156,10 +196,18 @@
                         $('#titulo').html("Mapa de lluvia acumulada " + layergroup + " mes de " + months[ui.value] + " " + year);
                     });
                 
-                if(cLayer!=null){
+                /*if(cLayer!=null){
                     cLayer.removeSubLayer(layer);
                     cLayer=null;
-                }
+                }*/
+
+                mymap.eachLayer(function (layer) {
+                    try {
+                        if(layer!=Esri_WorldImagery && layer!=CartoDB_VoyagerOnlyLabels) mymap.removeLayer(layer);
+                    } catch (Err) {
+
+                    }
+                });
                 
                 var record = layer_list[0];
                 layer = record.layername;
@@ -175,8 +223,7 @@
 
                 cLayer = L.WMS.source("http://163.172.134.91/clima3base/wms?", wmsOptions);
                             
-                cLayer.getLayer(layer).addTo(mymap);
-        
+                cLayer.getLayer(layer).addTo(mymap);  
 
                 $('#titulo').html("Mapa de lluvia acumulada " + layergroup + " mes de " + months[0] + " " + year);
             });
@@ -185,19 +232,20 @@
 
         function showMiembro(miembro)
         {
+            LayerGroup = "c3pronostico";
+
             if(miembro==1)
             {
                 $.post('{{ URL::to('/') }}/getLayersMiembro',{miembro:miembro, _token:'{{ csrf_token() }}'},function(data){
                     var i = 0;
                     months_pronostico = new Array();
                     layer_list = data;
-                    for(i=0;i<data.length;i++)
+                    for(i=0; i < data.length; i++)
                     {
                         var record = layer_list[i];
-                        var layer = record.layername;
+                        layer = record.layername;
                         var layer_name_parts = layer.split('_');
                         layer = record.layername.split(":")[1];
-                        console.log(layer_name_parts);
                         months_pronostico.push(months[layer_name_parts[2]*1]);
                     }
                     $(".slider").show();
@@ -212,10 +260,18 @@
                             labels: months_pronostico
                         })
                         .on("slidechange", function(e,ui) {
-                            if(cLayer!=null){
+                            /*if(cLayer!=null){
                                 cLayer.removeSubLayer(layer);
                                 cLayer=null;
-                            }
+                            }*/
+
+                            mymap.eachLayer(function (layer) {
+                                try {
+                                    if(layer!=Esri_WorldImagery && layer!=CartoDB_VoyagerOnlyLabels) mymap.removeLayer(layer);
+                                } catch (Err) {
+
+                                }
+                            });
 
                             var record = layer_list[ui.value];
                             layer = record.layername.split(":")[1];
@@ -234,10 +290,19 @@
                             $('#titulo').html("Mapa de lluvia acumulada miembro " + miembro + " mes de " + months_pronostico[ui.value] + " " + (new Date()).getFullYear());
                         });
 
-                    if(cLayer!=null){
+                    /*if(cLayer!=null){
                         cLayer.removeSubLayer(layer);
                         cLayer=null;
-                    }
+                    }*/
+
+                    mymap.eachLayer(function (layer) {
+                        try {
+                            if(layer!=Esri_WorldImagery && layer!=CartoDB_VoyagerOnlyLabels) mymap.removeLayer(layer);
+                        } catch(Err) {
+                            
+                        }
+                    });
+                    
                     var record = layer_list[0];
                     layer = record.layername;
                     layer = record.layername.split(":")[1];
@@ -253,6 +318,8 @@
                             
                     cLayer.getLayer(layer).addTo(mymap);
 
+                    console.log(layer);
+
                     $('#titulo').html("Mapa de lluvia acumulada miembro " + miembro + " mes de " + months_pronostico[0] + " " + (new Date()).getFullYear());
                 });
             }
@@ -260,10 +327,17 @@
             {
                 $(".slider").hide();
                 $.post('{{ URL::to('/') }}/getLayersMiembro',{miembro:miembro, _token:'{{ csrf_token() }}'},function(data){
-                    if(cLayer!=null){
+                    /*if(cLayer!=null){
                         cLayer.removeSubLayer(layer);
                         cLayer=null;
-                    }
+                    }*/
+                    mymap.eachLayer(function (layer) {
+                        try{
+                            if(layer!=Esri_WorldImagery && layer!=CartoDB_VoyagerOnlyLabels) mymap.removeLayer(layer);
+                        } catch (Err) {
+
+                        }
+                    });
                     months_pronostico = new Array();
                     layer_list = data;
                     console.log(layer_list);

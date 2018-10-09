@@ -2,10 +2,10 @@ var map = null;
 var pronostico = null;
 var x = null;
 function initMap() {
-    var center = [13.80, -89.743537];
+    var center = [13.77, -89.743537];
     var zoom = 12;
     map = L.map("map").setView(center, zoom);
-    
+
     L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
 	       maxZoom: 18,
 	       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -46,7 +46,7 @@ function initMap() {
         
         var marker = L.marker(pch,{title:pchi.nombre_pch,icon:myIcon}).addTo(map);
         
-        if(pchi.nombre_pch != 'SENSUNAPAN DE NAHUIZALCO I') {
+        if(pchi.nombre_pch == 'PAPALOATE DE NAHUIZALCO I') {
             marker.bindTooltip(pchi.nombre_pch,{permanent:true}).openTooltip();
         } else {
             marker.bindTooltip(pchi.nombre_pch,{permanent:true,direction:'right',offset:L.point(20,20)}).openTooltip(); 

@@ -26,7 +26,7 @@
 <script>
   var URL = "{{ URL::to('/') }}";
   var today = '{{ $fecha }}';
-  var idpch = 5;
+  var idpch = 10;
   var TOKEN = '{{ csrf_token() }}';
 </script>
 <script src="{{ URL::to('/') }}/js/app2.js"></script>

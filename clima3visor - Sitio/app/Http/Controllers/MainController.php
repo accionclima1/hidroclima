@@ -25,6 +25,13 @@ class MainController extends Controller
         }
         return response()->json($layers);
     }
+
+    public function getGeoTiff(Request $request){
+        $strfile = DB::select("select filepath from clima3_layer_index where layername = ?",[$request->file])[0]->filepath;
+        $strfile = str_replace("file://","",$strfile);
+        $strfile = str_replace("/home/geoserver/clima3/","",$strfile);
+        return response()->json([ 'strfile' => $strfile ]);
+    }
 }
 
 ?>

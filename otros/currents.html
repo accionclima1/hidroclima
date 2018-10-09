@@ -1,0 +1,38 @@
+
+<script src="https://unpkg.com/leaflet@0.7.7/dist/leaflet.js"></script>
+<script src="https://api4.windy.com/assets/libBoot.js"></script>
+<style>
+    #windy {
+  			width: 100%;
+  			height: 700px;
+  	}
+</style>
+<div id="windy"></div>
+<script>
+    var map = null;
+    const options = {
+
+        key: 'dHrdqZFBUTuWzqzcpOOwen3qHOAd4wyW',
+
+        verbose: true,
+
+        // Optional: Initial state of the map
+        lat: 7.537,
+        lon: -87.583,
+        zoom: 5,
+        overlay: 'currents',
+        level:'surface',
+        forecast:'24',
+        calendar:'now'
+    }
+
+    windyInit( options, windyAPI => {
+        // windyAPI is ready, and contain 'map', 'store',
+        // 'picker' and other usefull stuff
+
+        const { overlays, broadcast, map } = windyAPI
+
+        overlays.currents.setMetric('m/s');
+
+    })
+</script>

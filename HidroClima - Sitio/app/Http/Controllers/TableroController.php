@@ -19,7 +19,8 @@ class TableroController extends Controller
     {
         $pchs = DB::select("select * from pchs order by idpch");
         $fecha = DB::select("select max(fecha) as last from pchs_caudal_potencia")[0];
-
+        $pronosticos = null;
+        $resultados = null;
         foreach($pchs as $pch)
         {
           $pronostico_pch = DB::select("select

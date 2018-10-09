@@ -352,7 +352,7 @@ class ApiController extends Controller
   
   public function getMensajes(Request $request)
   {
-     $mensajes = DB::select("select * from mensajes where iddestinatario = ? order by fechahora limit 25",[$request->id]);
+     $mensajes = DB::select("select * from mensajes where iddestinatario = ? order by fechahora desc limit 25",[$request->id]);
      return response()->json($mensajes);
   }
 

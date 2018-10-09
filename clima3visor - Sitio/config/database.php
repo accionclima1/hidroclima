@@ -36,7 +36,7 @@ return [
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '9002'),
+            'port' => env('DB_PORT', '9000'),
             'database' => env('DB_DATABASE', 'clima3db'),
             'username' => env('DB_USERNAME', 'emartinez'),
             'password' => env('DB_PASSWORD', 'gis$developer'),

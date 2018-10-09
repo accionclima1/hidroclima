@@ -22,3 +22,5 @@ Route::get('/getLayersMiembro','MainController@getLayersMiembro');
 Route::post('/getLayersByLayerGroup','MainController@getLayersByLayerGroup');
 
 Route::get('/getLayersByLayerGroup','MainController@getLayersByLayerGroup');
+
+Route::get('/getGeoTiff','MainController@getGeoTiff');

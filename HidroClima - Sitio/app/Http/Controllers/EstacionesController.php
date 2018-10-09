@@ -17,7 +17,7 @@ class EstacionesController extends Controller
 
     public function show()
     {
-        $estaciones = DB::select("select * from estaciones order by idestacion");
+        $estaciones = DB::select("select * from estaciones order by tipo, idestacion");
         return view('estaciones',['estaciones'=>$estaciones]);
     }
 
@@ -51,7 +51,7 @@ class EstacionesController extends Controller
           Estaciones::destroy($request->idestacion);
       }
 
-      $estaciones = DB::select("select * from estaciones order by idestacion");
+      $estaciones = DB::select("select * from estaciones order by tipo, idestacion");
       return view('estaciones',['estaciones'=>$estaciones]);
     }
 }
