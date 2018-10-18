@@ -6,6 +6,24 @@
             {
                 width: 170px;
             }
+            #texto1 {
+                padding-top:20px;
+                padding-left:50px;
+                padding-right:50px;
+                text-align:justify;
+            }
+            #texto2 {
+                padding-top:20px;
+                padding-left:50px;
+                padding-right:50px;
+                text-align:justify;
+            }
+            #texto3 {
+                padding-top:20px;
+                padding-left:50px;
+                padding-right:50px;
+                text-align:justify;
+            }
         </style>
         <script src="<?php echo asset('js/leaflet.js');?>"></script>
         <link href="<?php echo asset('css/leaflet.css') ?>" rel="stylesheet" />
@@ -147,6 +165,10 @@
 
         function getLayerGroupByYear(layergroup,year)
         {
+            $('#texto1').hide();
+            $('#texto2').hide();
+            $('#texto3').show();
+
             LayerGroup = "clima3base";
 
             $.post("{{ URL::to('/') }}/getLayersByLayerGroup",{layergroup:layergroup,year:year, _token:'{{ csrf_token() }}'},function(data){
@@ -232,6 +254,10 @@
 
         function showMiembro(miembro)
         {
+            $('#texto1').show();
+            $('#texto2').show();
+            $('#texto3').hide();
+            
             LayerGroup = "c3pronostico";
 
             if(miembro==1)
@@ -368,7 +394,14 @@
 
     @section('main_content')
         <div class="row">
-            <div class="col-lg-12 center"><h4 class="page-header"><span id="titulo">Titulo del mapa</span></h4></div>
+            
+            <div class="col-lg-12 center">
+                <div id="texto1">
+                El pron&oacute;stico del miembro 1 contiene un m&aacute;ximo de 3 meses de pron&oacute;stico, deslice la barra de tiempo de arriba para navegar entre los meses de pron&oacute;stico num&eacute;rico.
+                Controle el acercamiento del mapa mediante los controles +/- o con la rueda del ratón para alejarse o acercarse a la zona de su inter&eacute;s. Puede descargar la capa de su inter&eacute;s en formato raster presione el botón de descarga en la esquina superior derecha.
+                </div>
+                <h4 class="page-header"><span id="titulo">Titulo del mapa</span></h4>
+            </div>
         </div>
         <div class="row">
             <div class="col-lg-12">
@@ -390,7 +423,22 @@
                 Escala: <img src="{{ URL::to('/') }}/img/escala.png" alt="Escala" style="margin:auto;"/> (mm)
             </div>
             <div class="col-lg-2"></div>
-        </div>   
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="texto2">
+                    En el mapa se muestran los acumulados mensuales correspondientes a la salida del modelo WRF del sistema Clima 3, el acumulado mensual es preparado en base a pasos de tiempo de cada 3 horas que van desde el d&iacute;a 1 del mes de la simulaci&oacute;n hasta el &uacute;ltimo d&iacute;a del mes. Las  unidades de medida de la precipitaci&oacute;n son mil&iacute;metros.
+                </div>
+                <div id="texto3">
+                    La l&iacute;nea base comprende 5 a&ntide;os de simulaci&oacute;n retrospectiva utilizando datos de re analisis y el sistema Clima 3, las simulaciones van desde el a&ntilde;o 2012 hasta el 2016, se prepararon acumulados mensuales para todo el per&iacute;odo simulado. Para medir la desviaci&oacute;n del modelo se usaron datos de hidroestimador global e hidro estimador global mejorado (CHIRP y <a href="http://chg.geog.ucsb.edu/data/chirps/">CHIRPS</a> respectivamente).
+
+                    Con la desviaci&oacute;n promedio mensual podr&aacute; aplicar un ajuste estad&iacute;stico a cada salida de pron&oacute;stico del sistema Clima 3, este procedimiento reduce el error del resultado determinista del modelo en la mayor&iacute;a de los casos.
+
+                    Mas informaci&oacute;n sobre la l&iacute;nea base en este <a href="http://blog.centroclima.org/index.php/2018/07/16/lanzamiento-de-linea-base-de-5-anos-de-2012-a-2016/">enlace</a>.
+                </div>
+            </div>
+        </div>
+        <br />   
     @endsection
 
     @section('dialogs')

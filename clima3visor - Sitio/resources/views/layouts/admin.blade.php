@@ -182,7 +182,7 @@
                         </li>
 
                             <li class="active">
-                                <a href="#"><i class="fa fa-folder-o fa-fw"></i> Pron&oacute;stico <span class="fa arrow"></a>
+                                <a href="#"><i class="fa fa-folder-o fa-fw"></i> Salidas WRF Clima 3 <span class="fa arrow"></a>
                                 <ul class="nav nav-second-level collapse-in">
                                     <li>
                                         <a class="active" href="#" onclick="showMiembro(1);"><i class="fa fa-map fa-fw"></i>Miembro 1</a>
