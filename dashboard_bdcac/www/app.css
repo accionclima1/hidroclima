@@ -10,3 +10,70 @@
     text-align:center;
     padding-top: 20px;
 }
+
+.divScroll {
+    overflow-x: auto;
+}
+
+.minWidth {
+    min-width:150px;
+}
+
+.legend {
+    color: #555;
+    padding: 12px 16px;
+    font: 12px Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.legend ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    clear: both;
+}
+.legend li {
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+}
+.legend .min {
+    float: left;
+    padding-bottom: 15px;
+}
+.legend .max {
+    float: right;
+}
+
+.legend2 {
+    color: #555;
+    padding: 12px 16px;
+    font: 12px Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    text-align:center;
+}
+.legend2 ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    clear: both;
+}
+.legend2 li {
+    display: inline-block;
+    width: 22px;
+    height: 30px;
+}
+.legend2 .min {
+    float: left;
+    padding-bottom: 15px;
+}
+.legend2 .max {
+    float: right;
+}
