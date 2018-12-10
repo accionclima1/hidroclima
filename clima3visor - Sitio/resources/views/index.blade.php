@@ -266,13 +266,14 @@
                     var i = 0;
                     months_pronostico = new Array();
                     layer_list = data;
+                    console.log(data);
                     for(i=0; i < data.length; i++)
                     {
                         var record = layer_list[i];
                         layer = record.layername;
                         var layer_name_parts = layer.split('_');
                         layer = record.layername.split(":")[1];
-                        months_pronostico.push(months[layer_name_parts[2]*1]);
+                        months_pronostico.push(months[layer_name_parts[2]*1-1]);
                     }
                     $(".slider").show();
                     $(".slider")
@@ -367,12 +368,12 @@
                     months_pronostico = new Array();
                     layer_list = data;
                     console.log(layer_list);
-                    var record = layer_list[0];
+                    var record = layer_list[layer_list.length-1];
                     layer = record.layername;
                     var layer_name_parts = layer.split('_');
                     layer = record.layername.split(":")[1];
                     console.log(layer_name_parts);
-                    months_pronostico.push(months[layer_name_parts[2]*1]);
+                    months_pronostico.push(months[layer_name_parts[2]*1-1]);
 
                    var wmsOptions = {
                         crs: L.CRS.EPSG4326,

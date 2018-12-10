@@ -49,6 +49,12 @@ class PchsController extends Controller
       {
         $pch = Pchs::find($request->idpch);
         $pch->nombre_pch = $request->nombrepch;
+        $pch->qecologico = $request->qecologico;
+        $pch->qdiseno = $request->qdiseno;
+        $pch->area_influencia = $request->area_influencia;
+        $pch->altura_neta = $request->altura_neta;
+        $pch->latitud = $request->latitud;
+        $pch->longitud = $request->longitud;
         $pch->save();
 
         $estaciones = DB::select("select * from estaciones where tipo='pronostico' order by idestacion");

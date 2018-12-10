@@ -1,4 +1,4 @@
-# Automatizacion de la descarga, procesamiento y publicación productos clima 3
+# Automatizacion de la descarga, procesamiento y publicaci??n productos clima 3
 # Elaborado por Ing. Mg. David Eliseo Martinez Castellanos
 # 02-07-2018
 
@@ -10,10 +10,11 @@ library(rgdal)
 library(lubridate)
 
 urlgeoserver <- "http://localhost:9002/geoserver/rest"
-processDir <- paste(getwd(),"/Desktop/clima3/procesamiento/",sep="")
+processDir <- paste("/Users/emartinez/Desktop/Hidroclima/clima3/procesamiento/",sep="")
 desviacionesDir <- paste(getwd(),"/Desktop/clima3/productos/DESVIACIONES_CHIRPS_PROMEDIO/",sep="")
 procesar <- c('m1_mes1','m1_mes2','m1_mes3','m2_mes1','m3_mes1','m4_mes1')
-urlsalidas <- "http://centroclima.org/samre3/salidas/"
+urlsalidas1 <- "http://centroclima.org/samre3/nodo2/salidas/"
+urlsalidas2 <- "http://centroclima.org/samre3/nodo1/salidas/"
 workspace <- "c3pronostico"
 
 # get workspaces
@@ -34,8 +35,8 @@ if(!grepl(r,workspace,fixed=TRUE))
 for(i in 1:length(procesar))
 {
   # i <- 1
-  download.file(url = paste(urlsalidas,procesar[i],"/acum_general.tif",sep=""), destfile = paste(processDir,procesar[i],"_","acumulado_general.tif",sep=""))
-  current_month <- month(Sys.Date()) - 1
+  
+  current_month <- month(Sys.Date())
   avgdev_month <- current_month + 1 
   
   if(i==2)
@@ -50,6 +51,14 @@ for(i in 1:length(procesar))
   
   process_month <- paste("0",as.character(avgdev_month),sep="")
   process_month <- substr(process_month, nchar(process_month)-1, nchar(process_month))
+  
+  if(0!=download.file(url = paste(urlsalidas1,procesar[i],"/acum_general_",process_month,".tif",sep=""), destfile = paste(processDir,procesar[i],"_","acumulado_general.tif",sep="")))
+  {
+    if(0!=download.file(url = paste(urlsalidas2,procesar[i],"/acum_general_",process_month,".tif",sep=""), destfile = paste(processDir,procesar[i],"_","acumulado_general.tif",sep="")))
+    {
+      break;
+    }
+  }
   
   lluvia_acumulada <- raster(paste(processDir,procesar[i],"_","acumulado_general.tif",sep=""))
   crs(lluvia_acumulada) <- "+proj=longlat +datum=WGS84 +pm=360dw"

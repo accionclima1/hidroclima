@@ -94,7 +94,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{ URL::to('/') }}/"><img class="img-responsive" src="http://blog.centroclima.org/wp-content/uploads/2018/08/cropped-logos-blog-1.png" alt="log"></a>
+                <a class="navbar-brand" href="blog.centroclima.org"><img class="img-responsive" src="http://blog.centroclima.org/wp-content/uploads/2018/08/cropped-logos-blog-1.png" alt="log"></a>
                 
             </div>
             <!--div class="collapse navbar-collapse" id="navbarText"-->
@@ -223,6 +223,10 @@
                               @endif
                             
                     </ul>
+                    <hr>
+                    <div style="text-align:center;"><a href="http://blog.centroclima.org/">Blog Centroclima</a></div>
+                    <br>
+                    <div style="text-align:center;"><a href="http://recursoshidricos.org/">CRRH - Recursos H&iacute;dricos</a></div>
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>

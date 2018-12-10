@@ -12,7 +12,7 @@ source(file='bdcac.functions.R')
 
 estaciones <- readRDS('data/estaciones.rds')
 estacionesWeb <- readRDS('data/estacionesWeb.rds')
-institucionesList <- distinct(data.frame(paste(estaciones$inspais, ' - ', estaciones$insnombre,sep=""))) %>% select('Instituci\u00F3n'=1) 
+institucionesList <- distinct(data.frame(paste(estaciones$inspais, ' - ', estaciones$insnombre,sep=""))) %>% select('Pa\u00CDs - Instituci\u00F3n'=1) 
 variables_estaciones <- readRDS('data/variables_estaciones.rds')
 lluvia_anual_estacion <- readRDS('data/lluvia_anual_estacion.rds')
 totales_mensuales <- readRDS('data/totales_mensuales.rds')
@@ -52,6 +52,8 @@ ui <- dashboardPage(
   dashboardBody(
     tags$head(
       tags$link(rel = "stylesheet", type = "text/css", href = "jquery.loadingModal.min.css"),
+      tags$link(rel = "stylesheet", type = "text/css", href = "jquery-ui.min.css"),
+      tags$script(src="jquery-ui.min.js"),
       tags$script(src="jquery.loadingModal.min.js"),
       tags$script(src = "turf.min.js"),
       tags$script(src = "choropleth.js"),
@@ -68,7 +70,7 @@ ui <- dashboardPage(
                                 box(width = NULL, solidHeader = TRUE,
                                     fluidRow(
                                       column(width=4,
-                                             selectInput("instituciones", "Instituci\u00F3n", institucionesList, selected = 1, multiple = FALSE, selectize = FALSE)),
+                                             selectInput("instituciones", "Pa\u00CDs - Instituci\u00F3n", institucionesList, selected = 1, multiple = FALSE, selectize = FALSE)),
                                       column(width=8,
                                              selectInput("estaciones", 'Estaci\u00F3n', choices = NULL))
                                       
@@ -77,7 +79,7 @@ ui <- dashboardPage(
                                 box(width = NULL, solidHeader = TRUE, status = 'info',
                                     fluidRow(
                                       column(width=12, 
-                                             leafletOutput("main", height = 500)
+                                             leafletOutput("main", height = 660)
                                       )
                                     )
                                 ),
@@ -116,7 +118,7 @@ ui <- dashboardPage(
                                 box(width = NULL, solidHeader = TRUE, status='info',
                                     fluidRow(
                                       column(width=12, 
-                                             leafletOutput("main_mes", height = 500)
+                                             leafletOutput("main_mes", height = 660)
                                       )
                                     )
                                 ),
@@ -151,7 +153,7 @@ ui <- dashboardPage(
                                 box(width = NULL, solidHeader = TRUE, status='info',
                                     fluidRow(
                                       column(width=12, 
-                                             leafletOutput("main_mes_promedio", height = 500)
+                                             leafletOutput("main_mes_promedio", height = 660)
                                       )
                                     )
                                 ),
@@ -176,19 +178,21 @@ ui <- dashboardPage(
                          ),
                          column(width=4,
                                 box(width=NULL,  title="M\u00e1ximo registrado", solidHeader = TRUE, status = 'primary',
-                                    tags$div(class="divScroll", dataTableOutput("datosMensualesMaximo"))  
+                                    tags$div(class="divScroll", dataTableOutput("datosMensualesMaximo"))
                                 )
                          )
                        ),
                        fluidRow(
                          column(width=6,
-                                box(width=NULL, title="Tercil Inferior periodos MJJ, ASO, DEFM", solidHeader = TRUE, status = 'primary',
-                                    tags$div(class="divScroll", dataTableOutput("tercilInferior"))
+                                box(width=NULL, title="Límite Tercil Inferior periodos MJJ, ASO, DEFM", solidHeader = TRUE, status = 'primary',
+                                    tags$div(class="divScroll", dataTableOutput("tercilInferior")),
+                                    HTML("<i class=\"fa fa-info-circle\" title=\"MJJ - Mayo Junio Julio, ASO - Agosto Septiembre Octubre, DEFM - Diciembre Enero Febrero Marzo\"></i>")
                                 )
                          ),
                          column(width=6,
-                                box(width=NULL, title="Tercil Superior periodos MJJ, ASO, DEFM", solidHeader = TRUE, status = 'primary',
-                                    tags$div(class="divScroll", dataTableOutput("tercilSuperior"))
+                                box(width=NULL, title="Límite Tercil Superior periodos MJJ, ASO, DEFM", solidHeader = TRUE, status = 'primary',
+                                    tags$div(class="divScroll", dataTableOutput("tercilSuperior")),
+                                    HTML("<i class=\"fa fa-info-circle\" title=\"MJJ - Mayo Junio Julio, ASO - Agosto Septiembre Octubre, DEFM - Diciembre Enero Febrero Marzo\"></i>")
                                 )
                          )
                        )
@@ -208,7 +212,7 @@ ui <- dashboardPage(
                                 box(width = NULL, solidHeader = TRUE, status='info',
                                     fluidRow(
                                       column(width=12, 
-                                             leafletOutput("main_dias_lluvia", height = 500)
+                                             leafletOutput("main_dias_lluvia", height = 660)
                                       )
                                     )
                                 )
@@ -241,7 +245,7 @@ ui <- dashboardPage(
                                 box(width = NULL, solidHeader = TRUE, status='info',
                                     fluidRow(
                                       column(width=12, 
-                                             leafletOutput("main_periodos", height = 500)
+                                             leafletOutput("main_periodos", height = 660)
                                       )
                                     )
                                 )
@@ -273,40 +277,42 @@ ui <- dashboardPage(
                             ),
                             wellPanel(
                               #tags$div(class="divScroll",
-                                checkboxInput("main_promedio_septiembre","Lluvia promedio por mes registro completo",value=FALSE),
+                                checkboxInput("main_promedio_septiembre","Lluvia promedio meses lluviosos y meses secos",value=FALSE),
                                 selectInput('main_mes_select',label='Mes',choices=c('Septiembre','Octubre','Marzo','Abril'))
                               #)
                             ),
                             wellPanel(
                               #tags$div(class="divScroll",
                                 checkboxInput("main_periodos_perspectiva","Lluvia promedio periodos",value=FALSE),
-                                selectInput('main_periodos_select',label='Periodo',choices=c('MJJ','ASO','DEFM'))
+                                selectInput('main_periodos_select',label='Período',choices=c('MJJ','ASO','DEFM')),
+                                HTML("<i class=\"fa fa-info-circle\" title=\"MJJ - Mayo Junio Julio, ASO - Agosto Septiembre Octubre, DEFM - Diciembre Enero Febrero Marzo\"></i>")
                               #)
                             ),
                             wellPanel(
                               #tags$div(class="divScroll",
                                 checkboxInput("main_limite_terciles","Limite de terciles periodos MMJ, ASO, DEFM",value=FALSE),
-                                selectInput('main_tercil_periodo',label='Periodo',choices=c('MJJ','ASO','DEFM')),
-                                selectInput('main_tercil_valor',label='Tercil',choices=c('Primer tercil','Segundo tercil'))
+                                selectInput('main_tercil_periodo',label='Período',choices=c('MJJ','ASO','DEFM')),
+                                selectInput('main_tercil_valor',label='Tercil',choices=c('Tercil inferior','Tercil superior')),
+                                HTML("<i class=\"fa fa-info-circle\" title=\"MJJ - Mayo Junio Julio, ASO - Agosto Septiembre Octubre, DEFM - Diciembre Enero Febrero Marzo\"></i>")
                               #)
                             ),
                             wellPanel(
                               #tags$div(class="divScroll",
-                                checkboxInput("main_promedio_dias","Promedio de dias con lluvia mayor a",value=FALSE),
+                                checkboxInput("main_promedio_dias","Número de dias con lluvia mayor a",value=FALSE),
                                 sliderInput('main_mm_lluvia','Lluvia mm',min=0,max=100,value=50)
                               #)
                             ),
                             wellPanel(
                               #tags$div(class="divScroll",
                                 checkboxInput("main_periodos_30","Promedio periodos de 30 a\u00F1os",value=FALSE),
-                                selectInput('main_periodo_30',label='Periodo',choices=c('1971 - 2000','1981 - 2010'))
+                                selectInput('main_periodo_30',label='Período',choices=c('1971 - 2000','1981 - 2010'))
                               #)
                             ),
                             tags$hr(),
                             wellPanel(
                               tags$h4('Opciones del mapa'),
                               selectInput('celda',label='Tama\u00F1o de celda (km)',choices=c(15,25,50),selected=50),
-                              selectInput('colorramp',label="Escala de colores",choices=c('Opci\u00F3n 1'=1,'Opci\u00F3n 2'=2),selected=1),
+                              selectInput('colorramp',label="Escala de colores",choices=c('Opción 1'=1,'Opción 2'=2),selected=1),
                               tags$div(id='opcion1',class='legend2',
                                 HTML("<ul><li style='background-color: #f7fcf0'></li><li style='background-color: #e0f3db'></li><li style='background-color: #ccebc5'></li><li style='background-color: #a8ddb5'></li><li style='background-color: #7bccc4'></li><li style='background-color: #4eb3d3'></li><li style='background-color: #2b8cbe'></li><li style='background-color: #0868ac'></li><li style='background-color: #084081'></li><ul>")),
                               tags$div(id='opcion2',class='legend2',
@@ -315,6 +321,13 @@ ui <- dashboardPage(
                             
                       )
                    #)
+               )
+        )
+      ),
+      fluidRow(
+        column(width=12,
+               tags$div(class="alert alert-success",
+                 "En el caso de elementos en los que el valor mensual es la suma de los valores diarios en lugar de un valor medio (por ejemplo, lluvia), un valor mensual solo debería calcularse si se dispone de todas las observaciones diarias o si se incorporan todos los días en los que falten datos en una observación que incluya el período de los datos ausentes en el día en el que se reinician las observaciones. (Guia de practices climatológicas OMM 100 2011 capitulo 4.) por tanto se recomienda no calcular un valor mensual si faltan más de 10 valores diarios o 5 o más valores diarios consecutivos."
                )
         )
       )
@@ -349,12 +362,12 @@ server <- function(input, output, session) {
   
   output$plot_referencia <- renderPlot({
     ggplot(data=rbind(data.frame('1971 - 2000',lluvia_anual_estacion %>% filter(estnombre==input$estaciones_periodos & date_part >= 1971 & date_part <= 2000) %>% summarize(mean=mean(sum),count=n())) %>% select('Periodo'=1,'Promedio'=mean, 'A\u00F1os'=count),data.frame('1981 - 2010',lluvia_anual_estacion %>% filter(estnombre==input$estaciones_periodos & date_part >= 1981 & date_part <= 2010) %>% summarize(mean=mean(sum),count=n())) %>% select('Periodo'=1,'Promedio'=mean, 'A\u00F1os'=count)),
-           aes_string(x='Periodo',y='Promedio')) + geom_col(fill='#5688d8',alpha=0.7,size=1.5) + 
+           aes_string(x='Periodo',y='Promedio')) + geom_col(fill='#5688d8',alpha=0.7,size=1.5,width=0.3) + 
             labs(title="Precipitaci\u00F3n promedio periodo de referencia", x="Periodo", y="Promedio (mm)") + 
       theme(plot.title = element_text(hjust=0.5, size = 14, face = "bold"))
   })
   
-  output$datosAnuales <- renderDataTable(dplyr::filter(lluvia_anual_estacion,lluvia_anual_estacion$estnombre==input$estaciones) %>% select('A\u00F1o'='date_part','Total (mm)'='sum'),options = list(pageLength=10,info=FALSE,language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+  output$datosAnuales <- renderDataTable(dplyr::filter(lluvia_anual_estacion,lluvia_anual_estacion$estnombre==input$estaciones) %>% select('A\u00F1o'='date_part','Total (mm)'='sum','Dias disponibles'='count'),options = list(pageLength=10,info=FALSE,language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
   
   output$datosMensuales <- renderDataTable(dplyr::filter(totales_mensuales_long,totales_mensuales_long$estnombre==input$estaciones_mes & totales_mensuales_long$year==input$year) %>% select('A\u00F1o'='year','Mes'='month','Total (mm)'='total','Dias registrados'='dias'),options = list(pageLength=12,info=FALSE,language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
   
@@ -376,14 +389,17 @@ server <- function(input, output, session) {
                                                        quantile((periodos_perspectiva %>% filter(estnombre==input$estaciones_mes_promedio))$defm,0.66,na.rm=TRUE)) 
                                             %>% select ('Estacion'=1,'MJJ (mm)'=2,'ASO (mm)'=3,'DEFM (mm)'=4)),options=list(paging=FALSE,searching=FALSE,info=FALSE,language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
   
-  output$maximosAnuales <- renderDataTable(dplyr::filter(maximos_diarios,estnombre==input$estaciones) %>% select('Fecha'=diafecha,'Valor (mm)'=diavalor),options=list(pageLength=10,info=FALSE,language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
+  output$maximosAnuales <- renderDataTable({
+        nmaximos_diarios <- maximos_diarios %>% inner_join((lluvia_anual_estacion %>% select('estcodigobdcac'=1,'estnombre'=2,'yyyy'=5,'count'=7)),by=c('estcodigobdcac','yyyy'))
+        dplyr::filter(nmaximos_diarios,estnombre.x==input$estaciones) %>% select('Fecha'=diafecha,'Valor (mm)'=diavalor,'Dias disponibles'=count)},options=list(pageLength=10,info=FALSE,language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json'))
+    )
   
   output$datosDias <- renderDataTable(datosDiarios %>% filter(estnombre==input$estaciones_dias_lluvia & diavalor >= input$mmlluvia) %>% group_by(yyyy) %>% summarise(count=n()) %>% select('A\u00F1o'=yyyy,'No. Dias'=count),options=list(pageLength=10,info=FALSE,language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
   
   output$referencia <- renderDataTable(rbind(data.frame('1971 - 2000',lluvia_anual_estacion %>% filter(estnombre==input$estaciones_periodos & date_part >= 1971 & date_part <= 2000) %>% summarize(mean=mean(sum),count=n())) %>% select('Periodo'=1,'Promedio'=mean, 'A\u00F1os'=count),data.frame('1981 - 2010',lluvia_anual_estacion %>% filter(estnombre==input$estaciones_periodos & date_part >= 1981 & date_part <= 2010) %>% summarize(mean=mean(sum),count=n())) %>% select('Periodo'=1,'Promedio'=mean, 'A\u00F1os'=count)) %>% select('Periodo'=1,'Promedio (mm)'=2, 'A\u00F1os'=3),options=list(info=FALSE,paging=FALSE,searching=FALSE,language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
   
   output$main <- renderLeaflet({
-    leaflet(options = leafletOptions(zoomControl = FALSE)) %>% setView(lng = -85.5, lat = 12.5, zoom = 5) %>%
+    leaflet(options = leafletOptions(zoomControl = FALSE)) %>% setView(lng = -85.5, lat = 11.5, zoom = 6) %>%
       addProviderTiles(providers$Esri.WorldImagery,
                        options = providerTileOptions(noWrap = TRUE), group="Imagery"
       ) %>%
@@ -397,7 +413,7 @@ server <- function(input, output, session) {
   })
   
   output$main_mes <- renderLeaflet({
-    leaflet(options = leafletOptions(zoomControl = FALSE)) %>% setView(lng = -85.5, lat = 12.5, zoom = 5) %>%
+    leaflet(options = leafletOptions(zoomControl = FALSE)) %>% setView(lng = -85.5, lat = 11.5, zoom = 6) %>%
       addProviderTiles(providers$Esri.WorldImagery,
                        options = providerTileOptions(noWrap = TRUE)
       ) %>%
@@ -411,7 +427,7 @@ server <- function(input, output, session) {
   })
   
   output$main_mes_promedio <- renderLeaflet({
-    leaflet(options = leafletOptions(zoomControl = FALSE)) %>% setView(lng = -85.5, lat = 12.5, zoom = 5) %>%
+    leaflet(options = leafletOptions(zoomControl = FALSE)) %>% setView(lng = -85.5, lat = 11.5, zoom = 6) %>%
       addProviderTiles(providers$Esri.WorldImagery,
                        options = providerTileOptions(noWrap = TRUE)
       ) %>%
@@ -425,7 +441,7 @@ server <- function(input, output, session) {
   })
   
   output$main_dias_lluvia <- renderLeaflet({
-    leaflet(options = leafletOptions(zoomControl = FALSE)) %>% setView(lng = -85.5, lat = 12.5, zoom = 5) %>%
+    leaflet(options = leafletOptions(zoomControl = FALSE)) %>% setView(lng = -85.5, lat = 11.5, zoom = 6) %>%
       addProviderTiles(providers$Esri.WorldImagery,
                        options = providerTileOptions(noWrap = TRUE)
       ) %>%
@@ -439,7 +455,7 @@ server <- function(input, output, session) {
   })
   
   output$main_periodos <- renderLeaflet({
-    leaflet(options = leafletOptions(zoomControl = FALSE)) %>% setView(lng = -85.5, lat = 12.5, zoom = 5) %>%
+    leaflet(options = leafletOptions(zoomControl = FALSE)) %>% setView(lng = -85.5, lat = 11.5, zoom = 6) %>%
       addProviderTiles(providers$Esri.WorldImagery,
                        options = providerTileOptions(noWrap = TRUE)
       ) %>%

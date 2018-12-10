@@ -10,7 +10,7 @@ class MainController extends Controller
     public function getLayersMiembro(Request $request)
     {
         //return "select * from clima3_layer_index where layerclass='c3pronostico' and layergroup like '" . $request->miembro . "%'";
-        $layers = DB::select("select * from clima3_layer_index where layerclass='c3pronostico' and layergroup like 'm" . $request->miembro . "%'");
+        $layers = DB::select("select * from clima3_layer_index where layerclass='c3pronostico' and layergroup like 'm" . $request->miembro . "%' order by createdate");
         return response()->json($layers);
     }
 
